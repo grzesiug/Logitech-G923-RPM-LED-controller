@@ -9,7 +9,7 @@
 
 This plugin reads engine RPM data from any game supported by SimHub and lights up the five LEDs on the G923 wheel according to customisable thresholds. It works automatically with both the PlayStation/PC (PID `0xC266`) version of the wheel.
 
-![G923 LEDs in action](https://www.youtube.com/watch?v=9YcS7Mn_sfI) *(Add a screenshot or GIF here)*
+[![G923 LED Plugin for SimHub – Watch the video](https://img.youtube.com/vi/9YcS7Mn_sfI/0.jpg)](https://www.youtube.com/watch?v=9YcS7Mn_sfI)
 
 ---
 
@@ -20,7 +20,7 @@ This plugin reads engine RPM data from any game supported by SimHub and lights u
 - ✅ **Blink mode** – when RPM exceeds 95%, all five LEDs flash rapidly.
 - ✅ **Zero configuration** – just install, close Logitech G HUB, and launch SimHub.
 - ✅ **Game agnostic** – works with every title that provides RPM data to SimHub (Assetto Corsa, iRacing, BeamNG.drive, Forza, etc.).
-- https://www.youtube.com/watch?v=9YcS7Mn_sfI
+
 
 ---
 
