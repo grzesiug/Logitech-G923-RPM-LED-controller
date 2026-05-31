@@ -26,7 +26,7 @@ This plugin reads engine RPM data from any game supported by SimHub and lights u
 
 ## 📥 Download
 
-1. **Plugin DLL** – [`G923LedPlugin.dll`](link-to-your-dll)  
+1. **Plugin DLL** – [`G923LedPlugin.dll`](https://github.com/grzesiug/Logitech-G923-RPM-LED-controller/releases/tag/Logitech-G923)  
 2. **Required library** – [`hidapi.dll` (32-bit / x86)](https://github.com/libusb/hidapi/releases)  
    - Download `hidapi-win.zip` → extract → copy `x86/hidapi.dll`
 
