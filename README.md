@@ -16,7 +16,7 @@
 
 Watch the plugin in action on YouTube:
 
-**YouTube:** https://www.youtube.com/watch?v=9YcS7Mn_sfI
+[![Watch on YouTube](https://img.youtube.com/vi/9YcS7Mn_sfI/hqdefault.jpg)](https://www.youtube.com/watch?v=9YcS7Mn_sfI)
 
 The video demonstrates plugin installation, SimHub configuration, and RPM LED operation on the Logitech G923 wheel.
 
