@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "K31wjVRHvfQ=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Grzegorz\\Desktop\\projects\\G923LedPlugin_xbox\\G923LedPlugin.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Grzegorz\\.nuget\\packages\\hidsharp\\2.6.4\\hidsharp.2.6.4.nupkg.sha512"
+  ],
+  "logs": []
+}
