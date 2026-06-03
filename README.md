@@ -1,132 +1,149 @@
-# Logitech-G923-RPM-LED-controller
-# G923 LED Plugin for SimHub
+# 🚀 Features
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![SimHub Version](https://img.shields.io/badge/SimHub-9.x+-blue)
-![.NET Framework](https://img.shields.io/badge/.NET-4.8+-purple)
+✅ **Automatic interface detection** – the plugin tests all HID interfaces of your Logitech G923 and automatically selects the one that accepts LED commands. Works with both **PlayStation/PC** and **Xbox/PC** versions of the wheel.
 
-**Control the RPM LEDs on your Logitech G923 racing wheel directly from SimHub.**
+✅ **Native SimHub integration** – LED behavior is fully configurable through the standard SimHub RPM LED settings. The plugin automatically uses the RPM LED configuration defined in SimHub.
 
-This plugin reads engine RPM data from any game supported by SimHub and lights up the five LEDs on the G923 wheel according to customisable thresholds. It works automatically with both the PlayStation/PC (PID `0xC266`) version of the wheel.
+✅ **Real-time RPM LEDs** – LEDs react instantly to engine RPM data provided by SimHub.
 
-[![G923 LED Plugin for SimHub – Watch the video](https://img.youtube.com/vi/9YcS7Mn_sfI/0.jpg)](https://www.youtube.com/watch?v=9YcS7Mn_sfI)
+✅ **Zero configuration** – simply install the required files, close Logitech G HUB, and launch SimHub.
 
----
-
-## 🚀 Features
-
-- ✅ **Automatic interface detection** – the plugin tests all HID interfaces of your G923 and picks the one that accepts LED commands. Works even if your wheel has a different firmware version.
-- ✅ **Smooth RPM mapping** – LEDs start lighting at 65% of max RPM and reach full illumination at 95%.
-- ✅ **Blink mode** – when RPM exceeds 95%, all five LEDs flash rapidly.
-- ✅ **Zero configuration** – just install, close Logitech G HUB, and launch SimHub.
-- ✅ **Game agnostic** – works with every title that provides RPM data to SimHub (Assetto Corsa, iRacing, BeamNG.drive, Forza, etc.).
-
+✅ **Game agnostic** – works with every title that provides RPM data to SimHub, including Assetto Corsa, Assetto Corsa Competizione, iRacing, BeamNG.drive, Forza Motorsport, Euro Truck Simulator 2, and many others.
 
 ---
 
-## 📥 Download
+# 🎥 Video Demonstration
 
-1. **Plugin DLL** – [`G923LedPlugin.dll`](https://github.com/grzesiug/Logitech-G923-RPM-LED-controller/releases/tag/Logitech-G923)  
-2. **Required library** – [`hidapi.dll` (32-bit / x86)](https://github.com/libusb/hidapi/releases)  
-   - Download `hidapi-win.zip` → extract → copy `x86/hidapi.dll`
+Watch the plugin in action on YouTube:
 
-> 💡 **Why x86?** SimHub runs as a 32-bit process, so you need the 32-bit version of `hidapi.dll`.
+**YouTube:** https://www.youtube.com/watch?v=9YcS7Mn_sfI
 
----
+The video demonstrates plugin installation, SimHub configuration, and RPM LED operation on the Logitech G923 wheel.
 
-## 🔧 Installation
 
-1. **Locate your SimHub folder**  
-   Default path:  
-   `C:\Program Files (x86)\SimHub\`
+# 📥 Download
 
-2. **Copy both files** into that folder:
-   - `G923LedPlugin.dll`
-   - `hidapi.dll`
+Required files:
 
-3. **Prepare your G923 wheel**:
-   - Connect the wheel to your PC.
-   - Start Logitech G HUB once, wait for calibration, then **close G HUB completely** (right‑click the tray icon → *Quit*).  
-     ⚠️ Make sure no `lghub.exe` or `lghub_agent.exe` processes remain in Task Manager.
-
-4. **Launch SimHub** (optional: run as Administrator if you encounter write errors).
-
-5. **Enable the plugin** in SimHub:
-   - Go to **Settings** → **Plugins**.
-   - Find **“G923 LED Plugin”** and ensure it is enabled.
-
-That’s it! The LEDs will now work automatically when you start a race.
+* **G923LedPlugin.dll**
+* **HidSharp.dll**
 
 ---
 
-## 🎮 How It Works
+# 🔧 Installation
 
-- The plugin continuously reads `Rpms` and `MaxRpm` from SimHub’s `GameData`.
-- It calculates the RPM percentage:  
-  `pct = Rpms / MaxRpm`
-- **LED mapping**:
-  - `pct < 65%` → all LEDs off
-  - `65% ≤ pct < 95%` → LEDs light progressively (1 to 5 LEDs)
-  - `pct ≥ 95%` → all 5 LEDs blink at ~12 Hz
-- The command sent to the wheel is:  
-  `{ 0x00, 0xF8, 0x12, bitmask, 0x00, 0x00, 0x00, 0x01 }`  
-  (where `bitmask` is a 5‑bit value controlling each LED)
+### 1. Locate your SimHub folder
 
----
+Default location:
 
-## ⚙️ Customisation
+`C:\Program Files (x86)\SimHub\`
 
-You can easily change the RPM thresholds by editing the source code and recompiling the plugin:
+### 2. Copy the required files
 
-| Constant | Default | Description |
-|----------|---------|-------------|
-| `LED_START_PCT` | 0.65 (65%) | RPM percentage when first LED turns on |
-| `LED_SHIFT_PCT` | 0.95 (95%) | RPM percentage where blinking begins |
+Copy the following files into the SimHub installation folder:
 
----
+* `G923LedPlugin.dll`
+* `HidSharp.dll`
 
-## 🐛 Troubleshooting
+### 3. Prepare your wheel
 
-### ❌ `hid_write` returns -1, error 0x00000057 (Invalid parameter)
+* Connect your Logitech G923 wheel to your PC.
+* Start Logitech G HUB once and wait for wheel calibration to complete.
+* Close G HUB completely (right-click the tray icon → **Quit**).
 
-This usually means the plugin opened the wrong HID interface. **Your plugin version automatically tests all interfaces**, so it should recover. If the problem persists:
+⚠️ Ensure that no `lghub.exe`, `lghub_agent.exe`, or related Logitech processes remain running in Task Manager.
 
-- **Run SimHub as Administrator** – some systems block `WriteFile` on HID devices.
-- **Completely close Logitech G HUB** – kill any leftover processes.
-- **Reinstall the wheel driver** – in Device Manager, uninstall the G923 under “Human Interface Devices” or “Game controllers”, then unplug and replug the wheel.
-- **Try a different USB port** – preferably USB 2.0.
+### 4. Launch SimHub
 
-### 🔌 Plugin not working in a specific game
+Run SimHub normally. If you encounter permission-related issues, try running it as Administrator.
 
-- Make sure SimHub receives RPM data from that game. Open the SimHub dashboard and check if the RPM gauge moves.
-- Some games require additional configuration (e.g., enabling shared memory or UDP telemetry). Refer to SimHub’s game‑specific documentation.
+### 5. Enable the plugin
 
-### 🧪 Plugin was working, but stopped after a Windows update
+* Open **Settings → Plugins**
+* Find **G923 LED Plugin**
+* Make sure the plugin is enabled
 
-- Re‑copy `hidapi.dll` (32‑bit) to the SimHub folder – it may have been removed by antivirus or a system cleanup.
+The LEDs will activate automatically when telemetry data is received from a supported game.
 
 ---
 
-## 📝 License
+# 🎮 How It Works
 
-This project is licensed under the **MIT License** – feel free to use, modify, and distribute it.  
-See the [LICENSE](LICENSE) file for details.
+The plugin reads RPM data directly from SimHub and controls the five RPM LEDs built into the Logitech G923 wheel.
 
----
+Unlike earlier versions, LED behavior is no longer hardcoded. The plugin now follows the RPM LED configuration configured in SimHub, including:
 
-## 🤝 Acknowledgements
+* RPM activation thresholds
+* Progressive LED lighting
+* Shift indicator settings
+* Blinking behavior
+* LED timing and animation settings
 
-- [SimHub](https://www.simhubdash.com/) – the amazing sim racing dashboard software.
-- [hidapi](https://github.com/libusb/hidapi) – cross‑platform HID library.
-- Logitech – for making the G923 wheel.
-
----
-
-## 💬 Support & Feedback
-
-For bug reports or feature requests, please [open an issue](link-to-your-repo/issues) on GitHub.  
-Pull requests are welcome!
+This allows you to customize the LEDs using SimHub's familiar interface without modifying or recompiling the plugin.
 
 ---
 
-**Happy racing!** 🏁
+# ⚙️ Configuration
+
+All LED settings are configured directly within SimHub:
+
+**Settings → LEDs → RPM LEDs**
+
+The plugin automatically synchronizes with your SimHub RPM LED configuration.
+
+No source-code modifications are required.
+
+---
+
+# 🐛 Troubleshooting
+
+### 🔌 LEDs do not respond
+
+* Verify that SimHub is receiving RPM telemetry from the game.
+* Ensure the plugin is enabled in SimHub.
+* Make sure `HidSharp.dll` is present in the SimHub folder.
+* Completely close Logitech G HUB before starting SimHub.
+
+### 🔒 Access denied or communication errors
+
+* Run SimHub as Administrator.
+* Reconnect the wheel.
+* Try a different USB port (USB 2.0 ports are often the most reliable).
+
+### 🎮 Plugin works in some games but not others
+
+The plugin depends on RPM data supplied by SimHub.
+
+Check whether the RPM gauge in SimHub updates while the game is running. Some games require additional telemetry, shared memory, or UDP settings to be enabled.
+
+### 🧪 Plugin stopped working after a Windows update
+
+* Re-copy `HidSharp.dll` into the SimHub folder.
+* Reinstall the Logitech G923 drivers.
+* Disconnect and reconnect the wheel.
+
+---
+
+# 📝 License
+
+This project is licensed under the MIT License.
+
+You are free to use, modify, and distribute the software under the terms of the license.
+
+---
+
+# 🤝 Acknowledgements
+
+* SimHub – the excellent sim racing dashboard and telemetry platform.
+* HidSharp – .NET HID communication library.
+* Logitech – for the G923 racing wheel.
+
+---
+
+# 💬 Support & Feedback
+
+For bug reports, feature requests, or suggestions, please open an issue on GitHub.
+
+Pull requests are welcome.
+
+Happy racing! 🏁
