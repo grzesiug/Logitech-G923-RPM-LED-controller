@@ -1,10 +1,20 @@
 {
   "version": 2,
-  "dgSpecHash": "K31wjVRHvfQ=",
+  "dgSpecHash": "a9E/lR3LCeI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Grzegorz\\Desktop\\projects\\G923LedPlugin_xbox\\G923LedPlugin.csproj",
+  "projectFilePath": "C:\\Users\\Grzegorz\\Documents\\GitHub\\Logitech-G923-RPM-LED-controller\\G923LedPlugin.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Grzegorz\\.nuget\\packages\\hidsharp\\2.6.4\\hidsharp.2.6.4.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Podczas pobierania danych o lukach w zabezpieczeniach pakietu wystąpił błąd: Nie można załadować indeksu usługi dla źródła https://api.nuget.org/v3/index.json.",
+      "projectPath": "C:\\Users\\Grzegorz\\Documents\\GitHub\\Logitech-G923-RPM-LED-controller\\G923LedPlugin.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Grzegorz\\Documents\\GitHub\\Logitech-G923-RPM-LED-controller\\G923LedPlugin.csproj",
+      "targetGraphs": []
+    }
+  ]
 }

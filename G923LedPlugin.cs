@@ -11,10 +11,10 @@ namespace G923LedPlugin
 {
     [PluginDescription("Logitech G923 RPM LED controller (PS/PC & Xbox/PC)")]
     [PluginAuthor("Grzegorz Ginalski")]
-    [PluginName("G923 LED Plugin v1.3")]
+    [PluginName("G923 LED Plugin v1.3.1")]
     public class G923LedPlugin : IPlugin, IDataPlugin
     {
-        private const string PluginName = "G923 LED Plugin v1.3";
+        private const string PluginName = "G923 LED Plugin v1.3.1";
 
         private const bool EnableDiagnostics = true;
 
@@ -71,7 +71,7 @@ namespace G923LedPlugin
         private int _blinkCounter;
 
         // ── HID++ protocol constants ─────────────────────────────────
-        private const byte REP_SHORT = 0x10;
+        private const byte REP_SHORT = 0x11;
         private const int LEN_SHORT = 7;
         private const byte REP_LONG = 0x11;
         private const int LEN_LONG = 20;

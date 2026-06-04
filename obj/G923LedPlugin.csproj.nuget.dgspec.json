@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Grzegorz\\Desktop\\projects\\G923LedPlugin_xbox\\G923LedPlugin.csproj": {}
+    "C:\\Users\\Grzegorz\\Documents\\GitHub\\Logitech-G923-RPM-LED-controller\\G923LedPlugin.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Grzegorz\\Desktop\\projects\\G923LedPlugin_xbox\\G923LedPlugin.csproj": {
+    "C:\\Users\\Grzegorz\\Documents\\GitHub\\Logitech-G923-RPM-LED-controller\\G923LedPlugin.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Grzegorz\\Desktop\\projects\\G923LedPlugin_xbox\\G923LedPlugin.csproj",
+        "projectUniqueName": "C:\\Users\\Grzegorz\\Documents\\GitHub\\Logitech-G923-RPM-LED-controller\\G923LedPlugin.csproj",
         "projectName": "G923LedPlugin",
-        "projectPath": "C:\\Users\\Grzegorz\\Desktop\\projects\\G923LedPlugin_xbox\\G923LedPlugin.csproj",
+        "projectPath": "C:\\Users\\Grzegorz\\Documents\\GitHub\\Logitech-G923-RPM-LED-controller\\G923LedPlugin.csproj",
         "packagesPath": "C:\\Users\\Grzegorz\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Grzegorz\\Desktop\\projects\\G923LedPlugin_xbox\\obj\\",
+        "outputPath": "C:\\Users\\Grzegorz\\Documents\\GitHub\\Logitech-G923-RPM-LED-controller\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Grzegorz\\AppData\\Roaming\\NuGet\\NuGet.Config",
