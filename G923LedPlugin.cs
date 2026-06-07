@@ -11,10 +11,10 @@ namespace G923LedPlugin
 {
     [PluginDescription("Logitech G923 RPM LED controller (PS/PC & Xbox/PC)")]
     [PluginAuthor("Grzegorz Ginalski")]
-    [PluginName("G923 LED Plugin v1.3.2 Beta")]
+    [PluginName("G923 LED Plugin v1.3.2")]
     public class G923LedPlugin : IPlugin, IDataPlugin
     {
-        private const string PluginName = "G923 LED Plugin v1.3.2 Beta";
+        private const string PluginName = "G923 LED Plugin v1.3.2";
 
         private const bool EnableDiagnostics = true;
 
