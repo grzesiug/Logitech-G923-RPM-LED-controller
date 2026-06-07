@@ -11,10 +11,10 @@ namespace G923LedPlugin
 {
     [PluginDescription("Logitech G923 RPM LED controller (PS/PC & Xbox/PC)")]
     [PluginAuthor("Grzegorz Ginalski")]
-    [PluginName("G923 LED Plugin v1.3.1")]
+    [PluginName("G923 LED Plugin v1.3.2 Beta")]
     public class G923LedPlugin : IPlugin, IDataPlugin
     {
-        private const string PluginName = "G923 LED Plugin v1.3.1";
+        private const string PluginName = "G923 LED Plugin v1.3.2 Beta";
 
         private const bool EnableDiagnostics = true;
 
@@ -64,6 +64,8 @@ namespace G923LedPlugin
         private long _lastWriteMs;
         private Thread _senderThread;
         private volatile bool _senderRunning;
+        private int _senderWriteErrors;
+        private const int MAX_WRITE_ERRORS = 5;
 
         // ── Shared state ─────────────────────────────────────────────
         private bool _isXboxMode;
@@ -82,7 +84,7 @@ namespace G923LedPlugin
         private const ushort PAGE_REV_LIGHTS = 0x807A;
         private const byte SOFTWARE_ID = 0x0D;
         private const int ARM_GAP_MS = 4;
-        private const int KEEPALIVE_MS = 1000;
+        private const int KEEPALIVE_MS = 5000;
         private const int CHANGE_MIN_MS = 160;
 
         public PluginManager PluginManager { get; set; }
@@ -210,7 +212,7 @@ namespace G923LedPlugin
                 {
                     if (TryInitXboxMode(xboxDevices))
                     {
-                        _targetLevel = 0; _sentLevel = -1; _lastWriteMs = 0;
+                        _targetLevel = 0; _sentLevel = -1; _lastWriteMs = 0; _senderWriteErrors = 0;
                         StartSender();
                         Log.Info($"[{PluginName}] Xbox/PC mode active (feat=0x{_featureIndex:X2}, cmdMaxOut={_xboxCmdMaxOut})");
                         return;
@@ -548,7 +550,7 @@ namespace G923LedPlugin
             longCmd[9] = lvl;
             cmdS.Write(longCmd);
 
-            _lastWriteMs = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
+            Interlocked.Exchange(ref _lastWriteMs, DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond);
             if (EnableDiagnostics) Log.Info($"[G923LED] SendPair level={lvl}");
         }
 
@@ -578,12 +580,13 @@ namespace G923LedPlugin
                 if (!_senderRunning) break;
 
                 long now = DateTime.UtcNow.Ticks / TimeSpan.TicksPerMillisecond;
+                long lastWrite = Interlocked.Read(ref _lastWriteMs);
                 int target, sent;
                 lock (_xboxLock) { target = _targetLevel; sent = _sentLevel; }
 
                 bool changed = target != sent;
-                bool dueChange = changed && (now - _lastWriteMs) >= CHANGE_MIN_MS;
-                bool dueKeep = !changed && (now - _lastWriteMs) >= KEEPALIVE_MS;
+                bool dueChange = changed && (now - lastWrite) >= CHANGE_MIN_MS;
+                bool dueKeep = !changed && (now - lastWrite) >= KEEPALIVE_MS;
                 if (!dueChange && !dueKeep) continue;
 
                 HidStream cmdS;
@@ -599,11 +602,18 @@ namespace G923LedPlugin
                 {
                     SendPairCore(cmdS, feat, finalTarget, maxOut);
                     lock (_xboxLock) { _sentLevel = finalTarget; }
+                    _senderWriteErrors = 0; // reset on success
                 }
                 catch (Exception ex)
                 {
-                    Log.Error($"[{PluginName}] SenderLoop: {ex.Message}");
-                    lock (_deviceLock) { _xboxCmd = null; }
+                    _senderWriteErrors++;
+                    Log.Warn($"[{PluginName}] SenderLoop write error #{_senderWriteErrors}: {ex.Message}");
+                    if (_senderWriteErrors >= MAX_WRITE_ERRORS)
+                    {
+                        Log.Error($"[{PluginName}] Too many write errors – marking device lost");
+                        lock (_deviceLock) { _xboxCmd = null; }
+                        _senderWriteErrors = 0;
+                    }
                 }
             }
         }
@@ -634,8 +644,12 @@ namespace G923LedPlugin
             {
                 if (_isXboxMode)
                 {
-                    if (_xboxCmd != null)
-                        try { SendPairCore(_xboxCmd, _featureIndex, 0, _xboxCmdMaxOut); } catch { }
+                    // Don't call SendPairCore directly here — that triggers an immediate HID++ packet
+                    // on every BeamNG reconnect (which happens multiple times per session) and can
+                    // cause the wheel to reset its internal HID++ state, disrupting FFB.
+                    // Instead, just update the target level; SenderLoop will send it on its next tick.
+                    SetXboxLevelUnsafe(0);
+                    return;
                 }
                 else
                 {
