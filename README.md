@@ -87,11 +87,13 @@ This allows you to customize the LEDs using SimHub's familiar interface without 
 
 All LED settings are configured directly within SimHub:
 
-**Settings → LEDs → RPM LEDs**
+**Settings → Car settings → Redline and shift lights
 
 The plugin automatically synchronizes with your SimHub RPM LED configuration.
+<img width="1187" height="578" alt="settings" src="https://github.com/user-attachments/assets/47bbe08e-df7c-4c8f-8412-8ecdb5482856" />
 
 No source-code modifications are required.
+
 
 ---
 
