@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("G923LedPlugin")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+30efecb99461bae8a58663cc9397077093eee148")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9412f867973dcc3483862d96ee89cf2f6b2a9310")]
 [assembly: System.Reflection.AssemblyProductAttribute("G923LedPlugin")]
 [assembly: System.Reflection.AssemblyTitleAttribute("G923LedPlugin")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

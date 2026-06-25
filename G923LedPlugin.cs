@@ -11,17 +11,17 @@ namespace G923LedPlugin
 {
     [PluginDescription("Logitech G923 RPM LED controller (PS/PC & Xbox/PC)")]
     [PluginAuthor("Grzegorz Ginalski")]
-    [PluginName("G923 LED Plugin v1.3.2")]
+    [PluginName("G923 LED Plugin v1.3.3")]
     public class G923LedPlugin : IPlugin, IDataPlugin
     {
-        private const string PluginName = "G923 LED Plugin v1.3.2";
+        private const string PluginName = "G923 LED Plugin v1.3.3";
 
         private const bool EnableDiagnostics = true;
 
         // ── USB identifiers ──────────────────────────────────────────
         private const ushort VID_LOGITECH = 0x046D;
-        private static readonly ushort[] SUPPORTED_PIDS_PS = { 0xC266 };
-        private static readonly ushort[] SUPPORTED_PIDS_XBOX = { 0xC26D, 0xC26E };
+        private static readonly ushort[] SUPPORTED_PIDS_PS = { 0xC266, 0xC24F };
+        private static readonly ushort[] SUPPORTED_PIDS_XBOX = { 0xC26D, 0xC26E, 0xC54D };
 
         // ── RPM thresholds ───────────────────────────────────────────
         private const double LED_START_PCT = 0.65;
@@ -104,8 +104,9 @@ namespace G923LedPlugin
             bool needsReconnect = false;
             lock (_deviceLock)
             {
-                if (_isXboxMode && (_xboxCmd == null || !_xboxCmd.CanWrite)) needsReconnect = true;
-                if (!_isXboxMode && (_psDevice == null || !_psDevice.CanWrite)) needsReconnect = true;
+                // DIAGNOSTIC TEST: CanWrite check disabled to verify if transient CanWrite=false is causing FFB dropout
+                if (_isXboxMode && (_xboxCmd == null  || !_xboxCmd.CanWrite )) needsReconnect = true;
+                if (!_isXboxMode && (_psDevice == null  || !_psDevice.CanWrite )) needsReconnect = true;
             }
 
             if (needsReconnect)
